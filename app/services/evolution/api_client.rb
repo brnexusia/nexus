@@ -25,7 +25,7 @@ class Evolution::ApiClient
       qrcode: true,
       rejectCall: false,
       groupsIgnore: true,
-      chatwootAccountId: chatwoot_account_id,
+      chatwootAccountId: chatwoot_account_id.to_s,
       chatwootToken: chatwoot_token,
       chatwootUrl: chatwoot_url,
       chatwootSignMsg: true,
