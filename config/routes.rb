@@ -344,6 +344,7 @@ Rails.application.routes.draw do
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
+          resource :evolution_connection, only: [:show, :create, :destroy], controller: 'evolution_connections'
           namespace :integrations do
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:show, :create, :update, :destroy] do

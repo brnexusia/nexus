@@ -951,5 +951,33 @@
       "CONFIRM_BUTTON_LABEL": "Delete",
       "CANCEL_BUTTON_LABEL": "Cancel"
     }
+  },
+  "EVOLUTION_WHATSAPP": {
+    "INBOX_LIST_BUTTON": "Connect WhatsApp",
+    "TITLE": "Connect WhatsApp",
+    "DESCRIPTION": "Connect a WhatsApp number using Evolution API. Once connected, conversations will appear automatically as a new inbox.",
+    "ADMIN_ONLY": "Only account administrators can manage the WhatsApp connection.",
+    "LOADING": "Checking connection status…",
+    "NOT_CONNECTED": {
+      "DESCRIPTION": "No WhatsApp number connected yet."
+    },
+    "CONNECT": {
+      "BUTTON": "Connect WhatsApp",
+      "ERROR": "Could not start the connection. Please try again in a moment."
+    },
+    "QR": {
+      "INSTRUCTIONS": "Open WhatsApp on your phone, go to Settings > Linked Devices > Link a Device, and scan the code below.",
+      "ALT": "WhatsApp QR code",
+      "GENERATING": "Generating QR code…",
+      "REFRESH": "Generate new QR code"
+    },
+    "CONNECTED": {
+      "TITLE": "WhatsApp connected"
+    },
+    "DISCONNECT": {
+      "BUTTON": "Disconnect",
+      "SUCCESS": "WhatsApp disconnected.",
+      "ERROR": "Could not disconnect. Please try again."
+    }
   }
 }

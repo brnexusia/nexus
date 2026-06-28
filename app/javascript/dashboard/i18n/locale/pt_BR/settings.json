@@ -919,5 +919,33 @@
       "CONFIRM_BUTTON_LABEL": "Excluir",
       "CANCEL_BUTTON_LABEL": "Cancelar"
     }
+  },
+  "EVOLUTION_WHATSAPP": {
+    "INBOX_LIST_BUTTON": "Conectar WhatsApp",
+    "TITLE": "Conectar WhatsApp",
+    "DESCRIPTION": "Conecte um número de WhatsApp usando a Evolution API. Depois de conectado, as conversas vão aparecer automaticamente em uma nova caixa de entrada.",
+    "ADMIN_ONLY": "Somente administradores da conta podem gerenciar a conexão do WhatsApp.",
+    "LOADING": "Verificando status da conexão…",
+    "NOT_CONNECTED": {
+      "DESCRIPTION": "Nenhum número de WhatsApp conectado ainda."
+    },
+    "CONNECT": {
+      "BUTTON": "Conectar WhatsApp",
+      "ERROR": "Não foi possível iniciar a conexão. Tente novamente em alguns instantes."
+    },
+    "QR": {
+      "INSTRUCTIONS": "Abra o WhatsApp no seu celular, vá em Configurações > Aparelhos conectados > Conectar um aparelho, e escaneie o código abaixo.",
+      "ALT": "QR code do WhatsApp",
+      "GENERATING": "Gerando QR code…",
+      "REFRESH": "Gerar novo QR code"
+    },
+    "CONNECTED": {
+      "TITLE": "WhatsApp conectado"
+    },
+    "DISCONNECT": {
+      "BUTTON": "Desconectar",
+      "SUCCESS": "WhatsApp desconectado.",
+      "ERROR": "Não foi possível desconectar. Tente novamente."
+    }
   }
 }

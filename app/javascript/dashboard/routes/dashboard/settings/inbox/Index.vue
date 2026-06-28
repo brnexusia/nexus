@@ -101,6 +101,16 @@ const openDelete = inbox => {
           </span>
         </template>
         <template #actions>
+          <router-link
+            v-if="isAdmin"
+            :to="{ name: 'whatsapp_evolution_index' }"
+          >
+            <Button
+              :label="$t('EVOLUTION_WHATSAPP.INBOX_LIST_BUTTON')"
+              variant="faded"
+              size="sm"
+            />
+          </router-link>
           <router-link v-if="isAdmin" :to="{ name: 'settings_inbox_new' }">
             <Button :label="$t('SETTINGS.INBOXES.NEW_INBOX')" size="sm" />
           </router-link>
