@@ -120,6 +120,8 @@ export const encodeToMP3 = (channels, sampleRate, samples, bitrate = 128) => {
 
 /**
  * Converts an audio Blob to an MP3 format Blob.
+ * Forces mono output to ensure compatibility with Firefox and stereo microphone
+ * configurations (see https://github.com/chatwoot/chatwoot/issues/12266).
  * @param {Blob} audioBlob - The audio data as a Blob.
  * @param {number} bitrate - MP3 bitrate (default: 128)
  * @returns {Promise<Blob>} - A Blob containing the MP3 encoded audio.
@@ -127,30 +129,21 @@ export const encodeToMP3 = (channels, sampleRate, samples, bitrate = 128) => {
 export const convertToMp3 = async (audioBlob, bitrate = 128) => {
   try {
     const audioBuffer = await decodeAudioData(audioBlob);
-    const samples = new Int16Array(
-      audioBuffer.length * audioBuffer.numberOfChannels
-    );
-    let offset = 0;
+    // Force mono: mix all channels down to a single channel.
+    // This fixes the Firefox stereo-microphone bug where encodeToMP3
+    // would hang or fail when the OS exposes more than 1 channel.
+    const numChannels = 1;
+    const samples = new Int16Array(audioBuffer.length);
     for (let i = 0; i < audioBuffer.length; i += 1) {
-      for (
-        let channel = 0;
-        channel < audioBuffer.numberOfChannels;
-        channel += 1
-      ) {
-        const sample = Math.max(
-          -1,
-          Math.min(1, audioBuffer.getChannelData(channel)[i])
-        );
-        samples[offset] = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
-        offset += 1;
+      let monoSample = 0;
+      for (let ch = 0; ch < audioBuffer.numberOfChannels; ch += 1) {
+        monoSample += audioBuffer.getChannelData(ch)[i];
       }
+      monoSample /= audioBuffer.numberOfChannels;
+      const clamped = Math.max(-1, Math.min(1, monoSample));
+      samples[i] = clamped < 0 ? clamped * 0x8000 : clamped * 0x7fff;
     }
-    return encodeToMP3(
-      audioBuffer.numberOfChannels,
-      audioBuffer.sampleRate,
-      samples,
-      bitrate
-    );
+    return encodeToMP3(numChannels, audioBuffer.sampleRate, samples, bitrate);
   } catch (error) {
     throw new Error('Conversion to MP3 failed.');
   }
