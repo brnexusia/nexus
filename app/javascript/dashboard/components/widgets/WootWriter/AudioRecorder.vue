@@ -49,13 +49,30 @@ const getRecordPluginOptions = audioFormat => {
   const options = {
     scrollingWaveform: true,
     renderRecordedAudio: false,
+    // ==========================================
+    // 🚨 FIX DE TRAVAMENTO E ÁUDIO DE 1 SEGUNDO
+    // ==========================================
+    // Forçamos a captura diretamente na raiz para Mono e 16kHz (ideal para voz).
+    // Isso reduz o array de dados em ~83%, impedindo que o loop de conversão
+    // congele a main thread do JS e resolva o corte do arquivo.
+    audio: {
+      channelCount: 1,
+      sampleRate: 16000,
+      echoCancellation: true,
+      noiseSuppression: true,
+    }
   };
+
   if (
     audioFormat === 'audio/ogg' &&
     MediaRecorder.isTypeSupported('audio/ogg;codecs=opus')
   ) {
     options.mimeType = 'audio/ogg;codecs=opus';
+  } else if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+    // Garante que o Chromium utilize o melhor codec caso não suporte o OGG nativo
+    options.mimeType = 'audio/webm;codecs=opus';
   }
+
   return options;
 };
 
@@ -85,10 +102,6 @@ const initWaveSurfer = () => {
   record.value.on('record-end', async blob => {
     try {
       const audioBlob = await convertAudio(blob, props.audioRecordFormat);
-      // Use the converted blob's actual type, which may differ from the
-      // requested format when the browser can't produce it (e.g. Safari falls
-      // back to MP3 instead of OGG). This keeps the filename, content type, and
-      // voice-note flag consistent with the real bytes.
       const audioType = audioBlob.type || props.audioRecordFormat;
       const ext = AUDIO_EXTENSION_MAP[audioType] || 'mp3';
       const fileName = `${getUuid()}.${ext}`;
