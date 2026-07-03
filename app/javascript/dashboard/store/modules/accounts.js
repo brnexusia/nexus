@@ -153,15 +153,9 @@ export const actions = {
   },
 
   limits: async ({ commit }) => {
-    commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingLimits: true });
-    try {
-      const response = await EnterpriseAccountAPI.getLimits();
-      commit(types.default.SET_ACCOUNT_LIMITS, response.data);
-    } catch (error) {
-      // silent error
-    } finally {
-      commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingLimits: false });
-    }
+    // Endpoint only exists in cloud/enterprise builds; skip silently for
+    // self-hosted community installations to avoid console 404 noise.
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingLimits: false });
   },
 
   getCacheKeys: async () => {
