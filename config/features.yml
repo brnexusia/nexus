@@ -108,14 +108,12 @@
   display_name: Custom Tools
   enabled: false
   premium: true
-- name: message_reply_to
-  display_name: Message Reply To
+- name: nexus_sales
+  display_name: Módulo de Vendas
   enabled: false
-  deprecated: true
-- name: insert_article_in_reply
-  display_name: Insert Article in Reply
+- name: nexus_scheduling
+  display_name: Módulo de Agendamento
   enabled: false
-  deprecated: true
 - name: inbox_view
   display_name: Inbox View
   enabled: false
@@ -241,9 +239,3 @@
   display_name: Advanced Assignment
   enabled: false
   premium: true
-- name: nexus_sales
-  display_name: Módulo de Vendas
-  enabled: false
-- name: nexus_scheduling
-  display_name: Módulo de Agendamento
-  enabled: false
