@@ -1,4 +1,4 @@
-import { frontendURL } from '../../../../helper/URLHelper';
+import { frontendURL } from '../../../helper/URLHelper';
 import SettingsWrapper from '../settings/SettingsWrapper.vue';
 import Services from './Services.vue';
 import Appointments from './Appointments.vue';
