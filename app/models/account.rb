@@ -73,6 +73,15 @@ class Account < ApplicationRecord
   has_many :csat_survey_responses, dependent: :destroy_async
   has_many :custom_attribute_definitions, dependent: :destroy_async
   has_one :evolution_whatsapp_connection, dependent: :destroy
+
+  # Nexus Sales Module
+  has_many :nexus_products, dependent: :destroy_async
+  has_many :nexus_orders, dependent: :destroy_async
+
+  # Nexus Scheduling Module
+  has_many :nexus_services, dependent: :destroy_async
+  has_many :nexus_time_slots, dependent: :destroy_async
+  has_many :nexus_appointments, dependent: :destroy_async
   has_many :custom_filters, dependent: :destroy_async
   has_many :dashboard_apps, dependent: :destroy_async
   has_many :data_imports, dependent: :destroy_async

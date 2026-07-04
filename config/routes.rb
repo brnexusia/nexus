@@ -345,6 +345,21 @@ Rails.application.routes.draw do
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
           resource :evolution_connection, only: [:show, :create, :destroy], controller: 'evolution_connections'
+
+          namespace :nexus do
+            # Módulo de Vendas
+            resources :products, only: [:index, :show, :create, :update, :destroy] do
+              resources :variants, only: [:index, :create, :update, :destroy],
+                                   controller: 'product_variants'
+            end
+            resources :orders, only: [:index, :show, :create, :update, :destroy]
+
+            # Módulo de Agendamento
+            resources :services, only: [:index, :show, :create, :update, :destroy] do
+              resources :time_slots, only: [:index, :create, :update, :destroy]
+            end
+            resources :appointments, only: [:index, :show, :create, :update, :destroy]
+          end
           namespace :integrations do
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:show, :create, :update, :destroy] do

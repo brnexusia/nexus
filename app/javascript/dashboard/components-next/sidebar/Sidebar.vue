@@ -97,6 +97,14 @@ const hasSaml = computed(() => {
   return isFeatureEnabledonAccount.value(accountId.value, FEATURE_FLAGS.SAML);
 });
 
+const hasNexusSales = computed(() => {
+  return isFeatureEnabledonAccount.value(accountId.value, FEATURE_FLAGS.NEXUS_SALES);
+});
+
+const hasNexusScheduling = computed(() => {
+  return isFeatureEnabledonAccount.value(accountId.value, FEATURE_FLAGS.NEXUS_SCHEDULING);
+});
+
 const hasConversationUnreadCounts = computed(() => {
   return isFeatureEnabledonAccount.value(
     accountId.value,
@@ -628,6 +636,48 @@ const menuItems = computed(() => {
         ...reportRoutes.value,
       ],
     },
+    ...(hasNexusSales.value
+      ? [
+          {
+            name: 'Sales',
+            label: 'Vendas',
+            icon: 'i-lucide-shopping-cart',
+            children: [
+              {
+                name: 'Sales Products',
+                label: 'Produtos',
+                to: accountScopedRoute('nexus_sales_products'),
+              },
+              {
+                name: 'Sales Orders',
+                label: 'Pedidos',
+                to: accountScopedRoute('nexus_sales_orders'),
+              },
+            ],
+          },
+        ]
+      : []),
+    ...(hasNexusScheduling.value
+      ? [
+          {
+            name: 'Scheduling',
+            label: 'Agendamento',
+            icon: 'i-lucide-calendar-check',
+            children: [
+              {
+                name: 'Scheduling Appointments',
+                label: 'Calendário',
+                to: accountScopedRoute('nexus_scheduling_appointments'),
+              },
+              {
+                name: 'Scheduling Services',
+                label: 'Serviços',
+                to: accountScopedRoute('nexus_scheduling_services'),
+              },
+            ],
+          },
+        ]
+      : []),
     {
       name: 'Campaigns',
       label: t('SIDEBAR.CAMPAIGNS'),

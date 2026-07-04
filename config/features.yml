@@ -241,3 +241,9 @@
   display_name: Advanced Assignment
   enabled: false
   premium: true
+- name: nexus_sales
+  display_name: Módulo de Vendas
+  enabled: false
+- name: nexus_scheduling
+  display_name: Módulo de Agendamento
+  enabled: false

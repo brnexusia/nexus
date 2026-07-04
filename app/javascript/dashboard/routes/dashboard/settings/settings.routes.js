@@ -27,6 +27,8 @@ import security from './security/security.routes';
 import conversationWorkflow from './conversationWorkflow/conversationWorkflow.routes';
 import captain from './captain/captain.routes';
 import whatsappEvolution from './whatsappEvolution/whatsappEvolution.routes';
+import salesRoutes from './sales/sales.routes';
+import schedulingRoutes from './scheduling/scheduling.routes';
 
 export default {
   routes: [
@@ -69,5 +71,7 @@ export default {
     ...conversationWorkflow.routes,
     ...captain.routes,
     ...whatsappEvolution.routes,
+    ...salesRoutes.routes,
+    ...schedulingRoutes.routes,
   ],
 };
