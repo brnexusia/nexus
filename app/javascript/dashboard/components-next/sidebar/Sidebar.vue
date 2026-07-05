@@ -653,6 +653,16 @@ const menuItems = computed(() => {
                 label: 'Pedidos',
                 to: accountScopedRoute('nexus_sales_orders'),
               },
+              {
+                name: 'Sales Reports',
+                label: 'Relatórios',
+                to: accountScopedRoute('nexus_sales_reports'),
+              },
+              {
+                name: 'Nexus Integration',
+                label: 'API / n8n',
+                to: accountScopedRoute('nexus_integration'),
+              },
             ],
           },
         ]
@@ -673,6 +683,11 @@ const menuItems = computed(() => {
                 name: 'Scheduling Services',
                 label: 'Serviços',
                 to: accountScopedRoute('nexus_scheduling_services'),
+              },
+              {
+                name: 'Scheduling Reports',
+                label: 'Relatórios',
+                to: accountScopedRoute('nexus_scheduling_reports'),
               },
             ],
           },

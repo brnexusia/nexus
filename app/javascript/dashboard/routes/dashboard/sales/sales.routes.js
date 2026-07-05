@@ -2,6 +2,8 @@ import { frontendURL } from '../../../helper/URLHelper';
 import SettingsWrapper from '../settings/SettingsWrapper.vue';
 import Products from './Products.vue';
 import Orders from './Orders.vue';
+import SalesReports from './SalesReports.vue';
+import NexusIntegration from './NexusIntegration.vue';
 
 export default {
   routes: [
@@ -20,6 +22,18 @@ export default {
           name: 'nexus_sales_orders',
           meta: { permissions: ['administrator', 'agent'] },
           component: Orders,
+        },
+        {
+          path: 'reports',
+          name: 'nexus_sales_reports',
+          meta: { permissions: ['administrator', 'agent'] },
+          component: SalesReports,
+        },
+        {
+          path: 'integration',
+          name: 'nexus_integration',
+          meta: { permissions: ['administrator'] },
+          component: NexusIntegration,
         },
         {
           path: '',

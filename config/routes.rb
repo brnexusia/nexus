@@ -359,6 +359,12 @@ Rails.application.routes.draw do
               resources :time_slots, only: [:index, :create, :update, :destroy]
             end
             resources :appointments, only: [:index, :show, :create, :update, :destroy]
+
+            # Relatórios
+            namespace :reports do
+              get :sales
+              get :scheduling
+            end
           end
           namespace :integrations do
             resources :apps, only: [:index, :show]
