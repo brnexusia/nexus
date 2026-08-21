@@ -3,6 +3,7 @@
  * Provides methods to customize text with installation-specific branding
  */
 import { useMapGetter } from 'dashboard/composables/store.js';
+import { replaceVisibleBrandNames } from 'shared/helpers/brandingHelper';
 
 export function useBranding() {
   const globalConfig = useMapGetter('globalConfig/get');
@@ -17,7 +18,7 @@ export function useBranding() {
     const installationName = globalConfig.value?.installationName;
     if (!installationName) return text;
 
-    return text.replace(/Chatwoot/g, installationName);
+    return replaceVisibleBrandNames(text, installationName);
   };
 
   return {

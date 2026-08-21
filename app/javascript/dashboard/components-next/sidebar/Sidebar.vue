@@ -659,7 +659,7 @@ const menuItems = computed(() => {
                 to: accountScopedRoute('nexus_sales_reports'),
               },
               {
-                name: 'Nexus Integration',
+                name: 'Arles Integration',
                 label: 'API / n8n',
                 to: accountScopedRoute('nexus_integration'),
               },

@@ -27,6 +27,7 @@ import {
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
+import { replaceVisibleBrandNamesInTranslation } from 'shared/helpers/brandingHelper';
 
 import { vResizeObserver } from '@vueuse/components';
 import { directive as onClickaway } from 'vue3-click-away';
@@ -37,6 +38,7 @@ const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
   locale: 'en',
   messages: i18nMessages,
+  postTranslation: replaceVisibleBrandNamesInTranslation,
 });
 
 sync(store, router);

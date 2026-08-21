@@ -40,7 +40,7 @@ const stockN8nNode = computed(() => JSON.stringify({
     },
     "options": {}
   },
-  "name": "Verificar Estoque Nexus",
+  "name": "Verificar Estoque Arles",
   "type": "n8n-nodes-base.httpRequest"
 }, null, 2));
 
@@ -111,7 +111,7 @@ const copy = (text) => {
       <!-- Create appointment -->
       <div class="rounded-xl outline outline-1 outline-n-container p-5 mb-6">
         <h3 class="text-sm font-medium text-n-slate-12 mb-2">✅ Criar Agendamento</h3>
-        <p class="text-xs text-n-slate-11 mb-3">Cria um agendamento para um slot específico. O <code class="bg-n-surface-1 px-1 rounded">contact_id</code> é opcional (ID do contato no Chatwoot).</p>
+        <p class="text-xs text-n-slate-11 mb-3">Cria um agendamento para um slot específico. O <code class="bg-n-surface-1 px-1 rounded">contact_id</code> é opcional (ID do contato no Arles).</p>
         <div class="grid md:grid-cols-2 gap-4">
           <div>
             <p class="text-xs text-n-slate-11 mb-1">Endpoint (POST)</p>
