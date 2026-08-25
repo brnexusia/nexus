@@ -1,6 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
   <title id="title">Arles</title>
-  <rect width="512" height="512" rx="112" fill="#111318"/>
-  <path fill="#FFFFFF" d="M256 82 114 430h76l29-72h74l29 72h76L256 82Zm0 133 24 61h-48l24-61Z"/>
-  <path fill="#FFFFFF" opacity=".24" d="M220 326h72l21 52H199l21-52Z"/>
+  <defs>
+    <linearGradient id="dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07102f"/>
+      <stop offset="1" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#174ef2"/>
+      <stop offset="1" stop-color="#2a64ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="#ffffff"/>
+  <path fill="url(#dark)" d="M296 103 219 105 54 410 302 410 270 350 159 349 255 170 330 169Z"/>
+  <path fill="url(#blue)" d="M272 201 380 409 457 410 346 201Z"/>
 </svg>
