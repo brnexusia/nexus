@@ -1,6 +1,5 @@
 <script setup>
 import { computed, onMounted } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import wootConstants from 'dashboard/constants/globals';
 
@@ -16,7 +15,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['chatTabChange']);
-const { t } = useI18n();
 
 const visibleItems = computed(() => {
   const allConversationsItem = props.items.find(
@@ -28,7 +26,7 @@ const visibleItems = computed(() => {
   return [
     {
       ...allConversationsItem,
-      name: t('SIDEBAR.ALL_CONVERSATIONS'),
+      name: 'Todas as conversas',
     },
   ];
 });
