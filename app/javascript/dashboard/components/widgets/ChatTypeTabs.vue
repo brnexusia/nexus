@@ -1,5 +1,6 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import wootConstants from 'dashboard/constants/globals';
 
@@ -10,33 +11,52 @@ const props = defineProps({
   },
   activeTab: {
     type: String,
-    default: wootConstants.ASSIGNEE_TYPE.ME,
+    default: wootConstants.ASSIGNEE_TYPE.ALL,
   },
 });
 
 const emit = defineEmits(['chatTabChange']);
+const { t } = useI18n();
+
+const visibleItems = computed(() => {
+  const allConversationsItem = props.items.find(
+    item => item.key === wootConstants.ASSIGNEE_TYPE.ALL
+  );
+
+  if (!allConversationsItem) return [];
+
+  return [
+    {
+      ...allConversationsItem,
+      name: t('SIDEBAR.ALL_CONVERSATIONS'),
+    },
+  ];
+});
 
 const activeTabIndex = computed(() => {
-  return props.items.findIndex(item => item.key === props.activeTab);
+  return visibleItems.value.findIndex(item => item.key === props.activeTab);
 });
 
 const onTabChange = selectedTabIndex => {
-  if (selectedTabIndex >= 0 && selectedTabIndex < props.items.length) {
-    const selectedItem = props.items[selectedTabIndex];
+  if (selectedTabIndex >= 0 && selectedTabIndex < visibleItems.value.length) {
+    const selectedItem = visibleItems.value[selectedTabIndex];
     if (selectedItem.key !== props.activeTab) {
       emit('chatTabChange', selectedItem.key);
     }
   }
 };
 
+onMounted(() => {
+  if (props.activeTab !== wootConstants.ASSIGNEE_TYPE.ALL) {
+    emit('chatTabChange', wootConstants.ASSIGNEE_TYPE.ALL);
+  }
+});
+
 const keyboardEvents = {
   'Alt+KeyN': {
     action: () => {
-      if (props.activeTab === wootConstants.ASSIGNEE_TYPE.ALL) {
-        onTabChange(0);
-      } else {
-        const nextIndex = (activeTabIndex.value + 1) % props.items.length;
-        onTabChange(nextIndex);
+      if (props.activeTab !== wootConstants.ASSIGNEE_TYPE.ALL) {
+        emit('chatTabChange', wootConstants.ASSIGNEE_TYPE.ALL);
       }
     },
   },
@@ -52,7 +72,7 @@ useKeyboardEvents(keyboardEvents);
     @change="onTabChange"
   >
     <woot-tabs-item
-      v-for="(item, index) in items"
+      v-for="(item, index) in visibleItems"
       :key="item.key"
       class="text-sm [&_a]:font-medium"
       :index="index"
