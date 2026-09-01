@@ -10,6 +10,14 @@ import SidebarSubGroup from './SidebarSubGroup.vue';
 import SidebarGroupEmptyLeaf from './SidebarGroupEmptyLeaf.vue';
 import SidebarCollapsedPopover from './SidebarCollapsedPopover.vue';
 
+const ARLES_HIDDEN_SIDEBAR_GROUPS = new Set(['Campaigns']);
+const ARLES_HIDDEN_SIDEBAR_ITEMS = new Set([
+  'Mentions',
+  'Participating',
+  'Unattended',
+  'Active',
+]);
+
 const props = defineProps({
   name: { type: String, required: true },
   label: { type: String, required: true },
@@ -39,8 +47,20 @@ const {
   cancelClose,
 } = usePopoverState();
 
+const isHiddenSidebarItem = item =>
+  ARLES_HIDDEN_SIDEBAR_ITEMS.has(item?.name);
+
+const isHiddenGroup = computed(() =>
+  ARLES_HIDDEN_SIDEBAR_GROUPS.has(props.name)
+);
+
 const navigableChildren = computed(() => {
-  return props.children?.flatMap(child => child.children || child) || [];
+  return (
+    props.children
+      ?.filter(child => !isHiddenSidebarItem(child))
+      .flatMap(child => child.children || child)
+      .filter(child => !isHiddenSidebarItem(child)) || []
+  );
 });
 
 const route = useRoute();
@@ -110,7 +130,7 @@ const handleWindowBlur = () => {
 
 const hasAccessibleSubChildren = child => {
   return child.children?.some(
-    subChild => subChild.to && isAllowed(subChild.to)
+    subChild => !isHiddenSidebarItem(subChild) && subChild.to && isAllowed(subChild.to)
   );
 };
 
@@ -118,6 +138,7 @@ const visibleChildren = computed(() => {
   if (!hasChildren.value) return [];
 
   return props.children.filter(child => {
+    if (isHiddenSidebarItem(child)) return false;
     if (child.children) return hasAccessibleSubChildren(child);
 
     return child.to && isAllowed(child.to);
@@ -129,7 +150,10 @@ const accessibleItems = computed(() => {
 
   return visibleChildren.value
     .flatMap(child => child.children || child)
-    .filter(child => child.to && isAllowed(child.to));
+    .filter(
+      child =>
+        !isHiddenSidebarItem(child) && child.to && isAllowed(child.to)
+    );
 });
 
 const hasAccessibleChildren = computed(() => {
@@ -245,7 +269,7 @@ watch(
 <!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <Policy
-    v-if="!hasChildren || hasAccessibleChildren"
+    v-if="!isHiddenGroup && (!hasChildren || hasAccessibleChildren)"
     :permissions="resolvePermissions(to)"
     :feature-flag="resolveFeatureFlag(to)"
     as="li"
@@ -276,7 +300,7 @@ watch(
         <SidebarCollapsedPopover
           v-if="hasChildren && isPopoverOpen"
           :label="label"
-          :children="children"
+          :children="visibleChildren"
           :active-child="activeChild"
           :trigger-rect="triggerRect"
           @close="closePopover"
