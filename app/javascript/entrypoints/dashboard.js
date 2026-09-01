@@ -36,7 +36,8 @@ import 'floating-vue/dist/style.css';
 
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
-  locale: 'en',
+  locale: 'pt_BR',
+  fallbackLocale: 'pt_BR',
   messages: i18nMessages,
   postTranslation: replaceVisibleBrandNamesInTranslation,
 });
@@ -69,7 +70,7 @@ if (window.errorLoggingConfig) {
       /safari-web-extension:/i,
       /safari-extension:/i,
     ],
-    integrations: [Sentry.browserTracingIntegration({ router })],
+    integrations: [Sentry.browserTracingIntegration({ router }),],
     ignoreErrors: [
       'ResizeObserver loop completed with undelivered notifications',
     ],
