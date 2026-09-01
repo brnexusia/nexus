@@ -70,7 +70,7 @@ if (window.errorLoggingConfig) {
       /safari-web-extension:/i,
       /safari-extension:/i,
     ],
-    integrations: [Sentry.browserTracingIntegration({ router }),],
+    integrations: [Sentry.browserTracingIntegration({ router })],
     ignoreErrors: [
       'ResizeObserver loop completed with undelivered notifications',
     ],
