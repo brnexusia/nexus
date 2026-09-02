@@ -209,6 +209,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
       it 'deletes the message' do
         delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}",
+               params: { deletion_source: 'chat_arles' },
                headers: agent.create_new_auth_token,
                as: :json
 
@@ -226,11 +227,27 @@ RSpec.describe 'Conversation Messages API', type: :request do
         )
 
         delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{interactive_message.id}",
+               params: { deletion_source: 'chat_arles' },
                headers: agent.create_new_auth_token,
                as: :json
 
         expect(response).to have_http_status(:success)
         expect(interactive_message.reload.deleted).to be true
+      end
+
+      it 'preserves the original content when deletion comes from an external integration' do
+        original_content = message.content
+
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(message.reload.content).to eq(original_content)
+        expect(message.deleted).not_to be true
+        expect(message.external_deleted).to be true
+        expect(message.content_attributes['external_deleted_at']).to be_present
+        expect(message.content_attributes['bcc_emails']).to eq(['hello@chatwoot.com'])
       end
     end
 
