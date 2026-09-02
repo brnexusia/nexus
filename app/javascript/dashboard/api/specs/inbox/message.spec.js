@@ -43,6 +43,15 @@ describe('#ConversationAPI', () => {
         }
       );
     });
+
+    it('#delete marks requests initiated by Chat Arles', () => {
+      messageAPI.delete(12, 4573);
+
+      expect(axiosMock.delete).toHaveBeenCalledWith(
+        '/api/v1/conversations/12/messages/4573',
+        { params: { deletion_source: 'chat_arles' } }
+      );
+    });
   });
   describe('#buildCreatePayload', () => {
     it('builds form payload if file is available', () => {

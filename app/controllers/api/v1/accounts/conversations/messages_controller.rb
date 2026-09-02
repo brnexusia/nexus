@@ -19,6 +19,8 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def destroy
+    return preserve_externally_deleted_message unless deleted_from_chat_arles?
+
     ActiveRecord::Base.transaction do
       message.update!(content: I18n.t('conversations.messages.deleted'), content_type: :text, content_attributes: { deleted: true })
       message.attachments.destroy_all
@@ -65,7 +67,21 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def permitted_params
-    params.permit(:id, :target_language, :status, :external_error)
+    params.permit(:id, :target_language, :status, :external_error, :deletion_source)
+  end
+
+  def deleted_from_chat_arles?
+    permitted_params[:deletion_source] == 'chat_arles'
+  end
+
+  def preserve_externally_deleted_message
+    message.update!(
+      content_attributes: message.content_attributes.merge(
+        external_deleted: true,
+        external_deleted_at: Time.current.iso8601
+      )
+    )
+    @message = message
   end
 
   def already_translated_content_available?

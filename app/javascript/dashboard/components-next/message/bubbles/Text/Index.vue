@@ -48,6 +48,12 @@ const handleSeeOriginal = () => {
         {{ $t('CONVERSATION.NO_CONTENT') }}
       </span>
       <FormattedContent v-if="renderContent" :content="renderContent" />
+      <span
+        v-if="contentAttributes.externalDeleted"
+        class="text-xs italic text-n-slate-11"
+      >
+        {{ $t('CONVERSATION.EXTERNAL_DELETED') }}
+      </span>
       <TranslationToggle
         v-if="hasTranslations"
         class="-mt-3"
