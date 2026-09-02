@@ -19,7 +19,8 @@ import {
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
 import ReconnectService from 'dashboard/helper/ReconnectService';
-import { useUISettings } from 'dashboard/composables/useUISettings';
+
+const ARLES_LOCALE = 'pt_BR';
 
 export default {
   name: 'App',
@@ -39,14 +40,12 @@ export default {
     const { accountId } = useAccount();
     // Use the font size composable (it automatically sets up the watcher)
     const { currentFontSize } = useFontSize();
-    const { uiSettings } = useUISettings();
 
     return {
       router,
       store,
       currentAccountId: accountId,
       currentFontSize,
-      uiSettings,
     };
   },
   data() {
@@ -80,10 +79,7 @@ export default {
   mounted() {
     this.initializeColorTheme();
     this.listenToThemeChanges();
-    // If user locale is set, use it; otherwise use account locale
-    this.setLocale(
-      this.uiSettings?.locale || window.chatwootConfig.selectedLocale
-    );
+    this.setLocale();
   },
   unmounted() {
     if (this.reconnectService) {
@@ -98,10 +94,8 @@ export default {
       const mql = window.matchMedia('(prefers-color-scheme: dark)');
       mql.onchange = e => setColorTheme(e.matches);
     },
-    setLocale(locale) {
-      if (locale) {
-        this.$root.$i18n.locale = locale;
-      }
+    setLocale() {
+      this.$root.$i18n.locale = ARLES_LOCALE;
     },
     async initializeAccount() {
       await this.$store.dispatch('accounts/get');
@@ -109,11 +103,9 @@ export default {
         accountId: this.currentAccountId,
       });
       const account = this.getAccount(this.currentAccountId);
-      const { locale, latest_chatwoot_version: latestChatwootVersion } =
-        account;
+      const { latest_chatwoot_version: latestChatwootVersion } = account;
       const { pubsub_token: pubsubToken } = this.currentUser || {};
-      // If user locale is set, use it; otherwise use account locale
-      this.setLocale(this.uiSettings?.locale || locale);
+      this.setLocale();
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(this.store, pubsubToken);
       this.reconnectService = new ReconnectService(this.store, this.router);
