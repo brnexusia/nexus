@@ -89,7 +89,9 @@ class MessageApi extends ApiClient {
   }
 
   delete(conversationID, messageId) {
-    return axios.delete(`${this.url}/${conversationID}/messages/${messageId}`);
+    return axios.delete(`${this.url}/${conversationID}/messages/${messageId}`, {
+      params: { deletion_source: 'chat_arles' },
+    });
   }
 
   retry(conversationID, messageId) {
